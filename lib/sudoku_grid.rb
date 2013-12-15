@@ -31,13 +31,13 @@ class SudokuGrid
     @cells = Array.new
     row = 0
     column = 0
+    begin
     f = File.new(file)
     
     f.each_char do |char|
       
       # ignore tabs, spaces, carriage return and newline chars 
-      unless ["\n","\r", "", "\t"].include?(char)
-        puts char
+      unless ["\n","\r", "", "\t"].include?(char)        
         pos = GridPosition.new
         pos.row = row
         pos.column = column
@@ -48,19 +48,18 @@ class SudokuGrid
               
         if(column == 8)
           column = 0
-          row = row + 1
-          puts "next_row"
+          row = row + 1          
         else
           column = column + 1
         end             
-      else
-        puts "space"
       end
-    end
-    puts @cells.size
+    end    
     raise ArgumentError.new if @cells.size != 81
     make_cell_lists
     create_strategies
+    rescue => e      
+      puts e.message
+    end
   end
 
   # is this grid completely solved
@@ -94,8 +93,7 @@ class SudokuGrid
 
   # add cell lists for each row
   def add_row_cell_lists
-    [0,1,2,3,4,5,6,7,8].each do |row_index|
-      puts row_index
+    [0,1,2,3,4,5,6,7,8].each do |row_index|      
       cellList = SudokuCellList.new
       [0,1,2,3,4,5,6,7,8].each do |column_index|
         cellList << cell_at_pos(row_index,column_index)
@@ -114,16 +112,26 @@ class SudokuGrid
       cellLists << cellList
     end
   end
-
+  
+  def print_to_screen    
+    elements = state
+    elements.map {|e| e ? e : '_'}
+    [0,1,2,3,4,5,6,7,8].each do |index|
+      print elements.slice(9*index,3)
+      print elements.slice(9*index+3,3)
+      print elements.slice(9*index+6,3)
+      puts
+    end
+  end
   # add cell lists for each block of 3x3 in the grid 
   def add_block_cell_lists
-    [0,1,2,3,4,5,6,7,8].each do |block_index|
+    [0,1,2,3,4,5,6,7,8].each do |block_index|      
       cellList = SudokuCellList.new
       [0,1,2].each do |row_index|
         [0,1,2].each do |column_index|
-          row = (block_index+1)/3 + row_index
-          column = (block_index+1)%3 + row_index
-          cellList << cell_at_pos(row_index,column_index)
+          row = (block_index / 3) * 3 + row_index
+          column = (block_index % 3) * 3 + column_index
+          cellList << cell_at_pos(row,column)          
         end
       end
       cellLists << cellList
@@ -158,7 +166,5 @@ class SudokuGrid
     cells.zip(state){|cell, value| cell.assign(value)}
   end
   
-  def inspect
-    state
-  end
+
 end

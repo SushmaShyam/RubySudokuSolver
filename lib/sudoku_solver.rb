@@ -16,10 +16,6 @@ VALIDSET = Set['1','2','3','4','5','6','7','8','9']
 
 class SudokuSolver  
 
-  def initialize
-    
-  end
-
   def new_grid(file)
     grid = SudokuGrid.new(file)
     grid
@@ -28,9 +24,11 @@ class SudokuSolver
   def solve(file)
     grid = new_grid(file)        
     begin
+      puts "Problem:"
+      grid.print_to_screen
       grid.solve
       puts "Solution:"
-      grid.print
+      grid.print_to_screen
     rescue SudokuGrid::NoSolutionError => ex
       puts ex.message
     end
@@ -38,5 +36,3 @@ class SudokuSolver
   
 end
 
-solver = SudokuSolver.new
-solver.solve("puzzle1.txt")
