@@ -30,7 +30,7 @@ class SudokuCellList
 
   # return a set of values in this group 
   def values
-    Set[*@cells.map { |cell| cell.value }.compact]
+    Set[*@cells.collect { |cell| cell.value }]
   end
 
 

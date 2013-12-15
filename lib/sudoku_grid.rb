@@ -21,9 +21,7 @@ require_relative 'strategies/cellList_strategy'
 
 class SudokuGrid
   attr_reader :cells, :cellLists
-  class GridPosition
-    attr_accessor :row, :column
-  end
+
   ArgumentError = Class.new(StandardError)
   NoSolutionError = Class.new(StandardError)
   # create grid with data in the file
@@ -33,15 +31,12 @@ class SudokuGrid
     column = 0
     begin
     f = File.new(file)
-    
+    create_strategies
     f.each_char do |char|
       
       # ignore tabs, spaces, carriage return and newline chars 
       unless ["\n","\r", "", "\t"].include?(char)        
-        pos = GridPosition.new
-        pos.row = row
-        pos.column = column
-        cell = SudokuCell.new(pos)
+        cell = SudokuCell.new(row, column)
         cell.assign(char) if VALIDSET.include?(char)
         @cells << cell
         break if row == 8 && column == 8 
@@ -56,7 +51,7 @@ class SudokuGrid
     end    
     raise ArgumentError.new if @cells.size != 81
     make_cell_lists
-    create_strategies
+    
     rescue => e      
       puts e.message
     end
@@ -150,10 +145,10 @@ class SudokuGrid
   
   # instantiate the strategy classes available for solving sudoku puzzles
   def create_strategies
-    @strategies = []
-    @strategies << CellStrategy.new(self)
-    @strategies << CellListStrategy.new(self)
-    @strategies << BacktrackStrategy.new(self)
+    @strategies = []    
+    @strategies << CellStrategy.new(self)    
+    @strategies << CellListStrategy.new(self)    
+    @strategies << BacktrackStrategy.new(self)    
   end
   
   # return the current state of the board whih is an array of cell values

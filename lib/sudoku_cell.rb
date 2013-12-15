@@ -20,12 +20,13 @@
 require 'set'
 
 class SudokuCell
-  attr_reader :value, :pos  
-  def initialize(pos)
-    @pos = pos
+  attr_reader :value, :row, :column
+
+  def initialize(row, column)
+    @row = row
+    @column = column
     @cell_lists = []
   end
-  
   def assign(value)        
     @value = value
   end
