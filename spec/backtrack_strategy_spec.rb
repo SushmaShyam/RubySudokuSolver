@@ -11,7 +11,9 @@
 +subject to the following conditions:
 +  
 =end
+require_relative 'spec_helper'
 require_relative '../lib/sudoku_grid.rb'
+
 
 describe "BacktrackStrategy" do
   context "valid puzzle" do

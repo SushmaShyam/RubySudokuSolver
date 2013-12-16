@@ -14,9 +14,10 @@
 
 require_relative 'sudoku_cell'
 require_relative 'sudoku_cell_list'
-require_relative 'strategies/backtrack_strategy'
-require_relative 'strategies/cell_strategy'
-require_relative 'strategies/cellList_strategy'
+require_relative 'strategies'
+# require_relative 'strategies/backtrack_strategy'
+# require_relative 'strategies/cell_strategy'
+# require_relative 'strategies/cellList_strategy'
 
 
 class SudokuGrid
@@ -145,10 +146,10 @@ class SudokuGrid
   
   # instantiate the strategy classes available for solving sudoku puzzles
   def create_strategies
-    @strategies = []    
-    @strategies << CellStrategy.new(self)    
-    @strategies << CellListStrategy.new(self)    
-    @strategies << BacktrackStrategy.new(self)    
+    @strategies = StrategyFactory.create_strategies(self)    
+    # @strategies << CellStrategy.new(self)    
+    # @strategies << CellListStrategy.new(self)    
+    # @strategies << BacktrackStrategy.new(self)    
   end
   
   # return the current state of the board whih is an array of cell values

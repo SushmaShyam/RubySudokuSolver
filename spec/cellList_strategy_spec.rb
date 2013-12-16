@@ -11,15 +11,16 @@
 +subject to the following conditions:
 +  
 =end
+require_relative 'spec_helper'
 require_relative '../lib/sudoku_grid.rb'
 
-describe "CellListStrategy" do
+describe "CelllistStrategy" do
   context "valid puzzle" do
     before(:each) do
       
       @file = File.new("puzzles/puzzle_easy.txt")
       @grid = SudokuGrid.new(@file)
-      @strategy = CellListStrategy.new(@grid) 
+      @strategy = CelllistStrategy.new(@grid) 
     end
     it "should solve a valid puzzle" do
        @strategy.solve == true
@@ -31,7 +32,7 @@ describe "CellListStrategy" do
       
       @file = File.new("puzzles/puzzle_invalid.txt")
       @grid = SudokuGrid.new(@file)
-      @strategy = CellListStrategy.new(@grid) 
+      @strategy = CelllistStrategy.new(@grid) 
     end
     it "should not solve an invalid puzzle" do
        @strategy.solve == false

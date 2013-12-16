@@ -4,6 +4,7 @@ class BacktrackStrategy
     @grid = grid
     @alternatives = []
     @max_alternatives = 0
+    @backtrack = 0
   end
   def solve
     if ! grid.unsolvable?

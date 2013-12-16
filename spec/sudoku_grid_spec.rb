@@ -12,8 +12,8 @@
 +  
 =end
 
+require_relative 'spec_helper'
 require_relative '../lib/sudoku_grid.rb'
-
 
 describe 'SudokuGrid' do
   before(:all) do

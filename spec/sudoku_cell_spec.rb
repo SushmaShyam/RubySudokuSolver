@@ -12,10 +12,9 @@
 +  
 =end
 
+require_relative 'spec_helper'
 require_relative '..\lib\sudoku_cell'
 require_relative '..\lib\sudoku_cell_list'
-
-
 
 describe "SudokuCell" do
   def createCellListWith(cell, *values)

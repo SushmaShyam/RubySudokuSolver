@@ -2,7 +2,7 @@
 # single cell, then assign that value to that cell.
 #
 
-class CellListStrategy
+class CelllistStrategy
   attr_reader :grid
   def initialize(grid)
     @grid = grid
