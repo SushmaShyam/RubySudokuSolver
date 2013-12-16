@@ -12,8 +12,8 @@
 +  
 =end
 
-require_relative '..\..\lib\sudoku_cell'
-require_relative '..\..\lib\sudoku_cell_list'
+require_relative '..\lib\sudoku_cell'
+require_relative '..\lib\sudoku_cell_list'
 
 VALIDSET = Set['1','2','3','4','5','6','7','8','9']
 

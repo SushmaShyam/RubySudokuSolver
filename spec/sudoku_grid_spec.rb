@@ -12,9 +12,9 @@
 +  
 =end
 
-require_relative '../../lib/sudoku_grid.rb'
+require_relative '../lib/sudoku_grid.rb'
 
-VALIDSET = Set['1','2','3','4','5','6','7','8','9']
+
 describe 'SudokuGrid' do
   before(:all) do
     @file = File.new("puzzles/puzzle_easy.txt")

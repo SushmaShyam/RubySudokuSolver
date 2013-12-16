@@ -11,8 +11,8 @@
 +subject to the following conditions:
 +  
 =end
-require_relative '../../lib/sudoku_grid.rb'
-VALIDSET = Set['1','2','3','4','5','6','7','8','9']
+require_relative '../lib/sudoku_grid.rb'
+
 describe "CellStrategy" do
   context "valid puzzle" do
     before(:each) do
