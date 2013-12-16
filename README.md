@@ -5,7 +5,7 @@ A sudoku puzzle solver in ruby
 
 Drop your puzzle in the puzzles folder and run the following command to see the solution on the console:-
 
-rake solve[<puzzle_name>]
+rake solve[puzzle_name]
 
 Example:- 
 
