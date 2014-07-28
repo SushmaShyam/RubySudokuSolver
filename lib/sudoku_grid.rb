@@ -15,10 +15,6 @@
 require_relative 'sudoku_cell'
 require_relative 'sudoku_cell_list'
 require_relative 'strategies'
-# require_relative 'strategies/backtrack_strategy'
-# require_relative 'strategies/cell_strategy'
-# require_relative 'strategies/cellList_strategy'
-
 
 class SudokuGrid
   attr_reader :cells, :cellLists
@@ -33,12 +29,11 @@ class SudokuGrid
     begin
     f = File.new(file)
     create_strategies
-    f.each_char do |char|
-      
+    f.each_char do |char|      
       # ignore tabs, spaces, carriage return and newline chars 
       unless ["\n","\r", "", "\t"].include?(char)        
         cell = SudokuCell.new(row, column)
-        cell.assign(char) if VALIDSET.include?(char)
+        cell.value = char if VALIDSET.include?(char)
         @cells << cell
         break if row == 8 && column == 8 
               
@@ -119,6 +114,7 @@ class SudokuGrid
       puts
     end
   end
+  
   # add cell lists for each block of 3x3 in the grid 
   def add_block_cell_lists
     [0,1,2,3,4,5,6,7,8].each do |block_index|      
@@ -147,9 +143,6 @@ class SudokuGrid
   # instantiate the strategy classes available for solving sudoku puzzles
   def create_strategies
     @strategies = StrategyFactory.create_strategies(self)    
-    # @strategies << CellStrategy.new(self)    
-    # @strategies << CellListStrategy.new(self)    
-    # @strategies << BacktrackStrategy.new(self)    
   end
   
   # return the current state of the board whih is an array of cell values
@@ -159,8 +152,8 @@ class SudokuGrid
   
   # reassign to the new list of cell values given in the state variable
   def set(state)
-    cells.zip(state){|cell, value| cell.assign(value)}
-  end
-  
-
+    cells.zip(state) do |cell, value| 
+      cell.value = value
+    end
+  end  
 end

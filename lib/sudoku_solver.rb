@@ -32,7 +32,6 @@ class SudokuSolver
     rescue SudokuGrid::NoSolutionError => ex
       puts ex.message
     end
-  end
-  
+  end  
 end
 

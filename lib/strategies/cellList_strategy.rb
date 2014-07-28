@@ -8,14 +8,18 @@ class CelllistStrategy
     @grid = grid
   end
   def solve
+    solved = false
+    
     grid.cellLists.each do |cellList|
       cellList.empty_cells_map.each do |value, cells|
         if cells.size == 1
-          (cells.first).assign value
-        return true
+          (cells.first).value = value
+          solved = true
+          break
         end
       end
     end
-    return false
+    
+    solved
   end
 end

@@ -8,13 +8,15 @@ class CellStrategy
   end
 
   def solve
+    solved = false
     grid.cells.each do |cell|
       values = cell.available_values
       if values.size == 1
-        cell.assign(values.to_a.first)
-        return true
+        cell.value = (values.to_a.first)
+        solved = true
+        break
       end
     end
-    return false
+    solved
   end
 end

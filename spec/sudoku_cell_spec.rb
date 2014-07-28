@@ -13,8 +13,8 @@
 =end
 
 require_relative 'spec_helper'
-require_relative '..\lib\sudoku_cell'
-require_relative '..\lib\sudoku_cell_list'
+require_relative '../lib/sudoku_cell'
+require_relative '../lib/sudoku_cell_list'
 
 describe "SudokuCell" do
   def createCellListWith(cell, *values)
@@ -24,7 +24,7 @@ describe "SudokuCell" do
     column = 0
     values.each do |value|      
       c = SudokuCell.new(row,column)
-      c.assign value
+      c.value = value
       cl << c
       row = row + 1
       column = column + 1
@@ -65,7 +65,7 @@ describe "SudokuCell" do
    
   context "when assigned" do
     before(:each) do
-      @cell.assign '3'
+      @cell.value = '3'
     end
     it "should return empty available values set" do      
       @cell.available_values == Set[]

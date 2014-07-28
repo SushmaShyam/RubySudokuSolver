@@ -1,11 +1,13 @@
 class BacktrackStrategy
   attr_reader :grid
+  
   def initialize(grid)
     @grid = grid
     @alternatives = []
     @max_alternatives = 0
     @backtrack = 0
   end
+  
   def solve
     if ! grid.unsolvable?
       cell = find_candidate_for_guessing
@@ -17,10 +19,10 @@ class BacktrackStrategy
       @backtrack += 1
       guess
     end
-      return true
+    return true
   end
-  private
   
+  private  
   # Find a candidate cell for guessing.  The candidate must be an
   # unassigned cell.  Prefer cells with the fewest number of available
   # values in order to minimize backtracks
@@ -47,12 +49,12 @@ class BacktrackStrategy
   end
 
   # Make a guess by pulling an alternative from the list of remembered
-  # alternatives and.  The state of the board at the remembered
+  # alternatives. The state of the board at the remembered
   # alternative is restored and the choice is made for that cell.
   def guess
     state, cell, value = @alternatives.pop
     grid.set(state)
-    cell.assign(value)    
+    cell.value = value    
     true
   end
 end

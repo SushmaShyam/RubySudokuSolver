@@ -12,7 +12,7 @@
 +  
 =end
 require_relative 'spec_helper'
-require_relative '..\lib\strategies'
+require_relative '../lib/strategies'
 
 describe "StrategyFactory" do
   it "returns strategy classes" do

@@ -18,26 +18,22 @@ require 'find'
 
 module StrategyFactory
   def self.get_strategies_from_dir
-    begin
-      classes = []      
-      
-      Find.find(File.dirname(__FILE__) + "/strategies/") do |item|              
-        if !File.directory?(item)         
-          require item
-          classes << class_name(item)
-        end
+    classes = []      
+    
+    Find.find(File.dirname(__FILE__) + "/strategies/") do |item|              
+      if !File.directory?(item)         
+        require item
+        classes << class_name(item)
       end
-
-    rescue => e 
-      puts e.message
     end
+
     return classes
   end
   
   def self.class_name(file_name)
     #convert from snake case to pascal case
      snake_case_string = File.basename(file_name, ".*")
-     return snake_case_string.split("_").map{|w| w.capitalize }.join("")
+     snake_case_string.split("_").map{|w| w.capitalize }.join("")
   end
   
   def self.create_strategies(grid)

@@ -13,8 +13,8 @@
 =end
 
 require_relative 'spec_helper'
-require_relative '..\lib\sudoku_cell'
-require_relative '..\lib\sudoku_cell_list'
+require_relative '../lib/sudoku_cell'
+require_relative '../lib/sudoku_cell_list'
 
 describe "SudokuCellList" do 
   before(:all) do
@@ -35,7 +35,7 @@ describe "SudokuCellList" do
       column = 0
       ['3','6', nil].each do |value|   
         cell = SudokuCell.new(row, column)
-        cell.assign value
+        cell.value = value
         row = row+1
         column = column +1
         @cellList << cell
