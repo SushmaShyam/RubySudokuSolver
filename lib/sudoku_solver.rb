@@ -12,10 +12,10 @@
 +  
 =end
 require_relative 'sudoku_grid'
-VALIDSET = Set['1','2','3','4','5','6','7','8','9']
+
 
 class SudokuSolver  
-
+  VALIDSET = Set['1','2','3','4','5','6','7','8','9']
   def new_grid(file)
     grid = SudokuGrid.new(file)
     grid

@@ -23,41 +23,47 @@ class SudokuGrid
   NoSolutionError = Class.new(StandardError)
   # create grid with data in the file
   def initialize(file)
-    @cells = Array.new
-    row = 0
-    column = 0
-    begin
-    f = File.new(file)
     create_strategies
-    f.each_char do |char|      
-      # ignore tabs, spaces, carriage return and newline chars 
-      unless ["\n","\r", "", "\t"].include?(char)        
-        cell = SudokuCell.new(row, column)
-        cell.value = char if VALIDSET.include?(char)
-        @cells << cell
-        break if row == 8 && column == 8 
-              
-        if(column == 8)
-          column = 0
-          row = row + 1          
-        else
-          column = column + 1
-        end             
-      end
-    end    
+    make_cells(file)
     raise ArgumentError.new if @cells.size != 81
     make_cell_lists
-    
-    rescue => e      
-      puts e.message
-    end
   end
-
+  
+  def make_cells(file)
+    f = File.new(file)
+    @cells = []
+    row = 0
+    column = 0
+    f.each_char do |char|
+      if make_cell(char, row, column)
+        break if row == 8 && column == 8 
+        if(column == 8) 
+          column = 0 
+          row = row + 1 
+        else 
+          column = column + 1 
+        end      
+      end             
+    end    
+  ensure    
+    f.close
+  end
+  
+  def make_cell(char, row, column)
+    # ignore tabs, spaces, carriage return and newline chars
+    unless ["\n","\r", "", "\t"].include?(char)        
+      cell = SudokuCell.new(row, column)
+      cell.value = char if SudokuSolver::VALIDSET.include?(char)
+      @cells << cell             
+      return true
+    end
+    false
+  end
   # is this grid completely solved
   def solved?
     @cells.each do |cell|
       if(cell.empty?)
-      return false
+        return false
       end
     end
     return true
@@ -84,40 +90,40 @@ class SudokuGrid
 
   # add cell lists for each row
   def add_row_cell_lists
-    [0,1,2,3,4,5,6,7,8].each do |row_index|      
+    (0..8).each do |row_index|      
       cellList = SudokuCellList.new
-      [0,1,2,3,4,5,6,7,8].each do |column_index|
+      (0..8).each do |column_index|
         cellList << cell_at_pos(row_index,column_index)
       end
-      cellLists << cellList
+      @cellLists << cellList
     end
   end
 
   # add cell lists for each column
   def add_column_cell_lists
-    [0,1,2,3,4,5,6,7,8].each do |column_index|
+    (0..8).each do |column_index|
       cellList = SudokuCellList.new
-      [0,1,2,3,4,5,6,7,8].each do |row_index|
+      (0..8).each do |row_index|
         cellList << cell_at_pos(row_index,column_index)
       end
-      cellLists << cellList
+      @cellLists << cellList
     end
   end
   
   def print_to_screen    
     elements = state
     elements.map {|e| e ? e : '_'}
-    [0,1,2,3,4,5,6,7,8].each do |index|
-      print elements.slice(9*index,3)
-      print elements.slice(9*index+3,3)
-      print elements.slice(9*index+6,3)
+    (0..8).each do |index|
+      print elements.slice(9*index, 3)
+      print elements.slice(9*index+3, 3)
+      print elements.slice(9*index+6, 3)
       puts
     end
   end
   
   # add cell lists for each block of 3x3 in the grid 
   def add_block_cell_lists
-    [0,1,2,3,4,5,6,7,8].each do |block_index|      
+    (0..8).each do |block_index|      
       cellList = SudokuCellList.new
       [0,1,2].each do |row_index|
         [0,1,2].each do |column_index|
@@ -126,13 +132,13 @@ class SudokuGrid
           cellList << cell_at_pos(row,column)          
         end
       end
-      cellLists << cellList
+      @cellLists << cellList
     end
   end
   
   # solve the sudoku grid using the different strategies available
   def solve
-    while ! solved?
+    while !solved?
       unless @strategies.find { |s| s.solve }
         # if the grid gets to a stage where none of the strategies could solve it, there is no solution to it
         fail NoSolutionError

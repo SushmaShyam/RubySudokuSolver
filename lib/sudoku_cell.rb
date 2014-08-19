@@ -16,7 +16,7 @@
 
 # The Sudoku Grid consists of SudokuCells each of which 
 #would be assigned with a value once the puzzle is solved
-
+require_relative 'sudoku_solver'
 require 'set'
 
 class SudokuCell
@@ -37,7 +37,7 @@ class SudokuCell
     if value
       Set[]
     else
-      @cell_lists.inject(VALIDSET) do |result, cellList|
+      @cell_lists.inject(SudokuSolver::VALIDSET) do |result, cellList|
         result - cellList.values
       end
     end
